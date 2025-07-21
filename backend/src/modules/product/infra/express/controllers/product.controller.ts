@@ -57,4 +57,7 @@ export class ProductController {
       res.status(500).json({ error: "Failed to delete product" });
     }
   };
+
+
+
 }

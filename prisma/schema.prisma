@@ -13,9 +13,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model Product {
-  ProductID   Int     @id @default(autoincrement())
+  ProductID   Int      @id @default(autoincrement())
   Name        String
   Price       Float
-  CategoryID  Int
   ImgUrl      String?
+  CategoryID  Int
+  Category    Category @relation(fields: [CategoryID], references: [CategoryID], onDelete: Cascade)
+}
+
+model Category {
+  CategoryID  Int       @id @default(autoincrement())
+  Name        String    @unique
+  Products    Product[] 
+}
+
+model User {
+  id          Int     @id @default(autoincrement())
+  fname       String
+  lastname    String
+  email       String  @unique
+  hashedPsw   String
+  role        Role    @default(COSTUMER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  COSTUMER
 }

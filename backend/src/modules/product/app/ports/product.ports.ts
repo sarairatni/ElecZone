@@ -7,4 +7,5 @@ export interface ProductPort {
   findAll(): Promise<ProductOutputDTO[]>;
   delete(id: number): Promise<void>;
   update(id: number, data: Partial<ProductInputDTO>): Promise<ProductOutputDTO>;
+
 }
