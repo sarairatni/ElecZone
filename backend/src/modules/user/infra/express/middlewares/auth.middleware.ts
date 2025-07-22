@@ -22,7 +22,7 @@ export const verifyToken = (
       req.user = { userId: (decoded as JwtPayload).userId };
       next();
     } else {
-      return res.sendStatus(403); // Invalid token
+      return res.sendStatus(403);
     }
   } catch (err) {
     return res.sendStatus(403);
