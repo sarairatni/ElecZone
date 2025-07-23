@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const adapters_1 = require("../adapters");
+const usecases_1 = require("../../app/usecases");
+const user_controller_1 = require("./controllers/user.controller");
+const router = (0, express_1.Router)();
+const repo = new adapters_1.PrismaUserRepo();
+const useCases = new usecases_1.UserUseCases(repo);
+const controller = new user_controller_1.UserController(useCases);
+router.post("/register", controller.register);
+router.post("/login", controller.login);
+// router.get("/me", verifyToken, controller.getProfile);
+exports.default = router;
