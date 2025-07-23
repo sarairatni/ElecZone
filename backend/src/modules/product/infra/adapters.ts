@@ -10,6 +10,7 @@ export class PrismaProductAdapter implements ProductPort {
     const product = await this.prisma.product.create({
       data: {
         Name: data.Name,
+        Description: data.Description,
         Price: data.Price,
         CategoryID: data.CategoryID,
         ImgUrl: data.ImgUrl,
@@ -46,6 +47,7 @@ export class PrismaProductAdapter implements ProductPort {
       where: { ProductID: id },
       data: {
         Name: data.Name,
+        Description: data.Description,
         Price: data.Price,
         CategoryID: data.CategoryID,
         ImgUrl: data.ImgUrl,

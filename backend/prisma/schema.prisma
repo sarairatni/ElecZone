@@ -9,12 +9,14 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 model Product {
   ProductID   Int      @id @default(autoincrement())
   Name        String
+  Description String
   Price       Float
   ImgUrl      String?
   CategoryID  Int
