@@ -2,6 +2,7 @@ import express from "express";
 import productRoutes from "./modules/product/infra/express/routes/product.routes";
 import categoryRoutes from "./modules/category/infra/express/category.routes";
 import userRoutes from "./modules/user/infra/express/user.routes";
+import cartProductRouter from "./modules/cartproduct/infra/express/cartproduct.routes";
 import cors from "cors";
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(cors());
 app.use("/", userRoutes);
 app.use("/products", productRoutes);
 app.use("/categories", categoryRoutes);
+app.use('/cartproducts', cartProductRouter);
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");

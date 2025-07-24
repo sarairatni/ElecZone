@@ -14,15 +14,15 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 model Product {
-  ProductID   Int      @id @default(autoincrement())
+  ProductID   Int            @id @default(autoincrement())
   Name        String
   Description String
   Price       Float
   ImgUrl      String?
   CategoryID  Int
-  Category    Category @relation(fields: [CategoryID], references: [CategoryID], onDelete: Cascade)
+  Category    Category       @relation(fields: [CategoryID], references: [CategoryID], onDelete: Cascade)
+  CartProducts CartProduct[] // <--- Add this line
 }
-
 model Category {
   CategoryID  Int       @id @default(autoincrement())
   Name        String    @unique
@@ -30,17 +30,28 @@ model Category {
 }
 
 model User {
-  id          Int     @id @default(autoincrement())
+  id          Int            @id @default(autoincrement())
   fname       String
   lastname    String
-  email       String  @unique
+  email       String         @unique
   hashedPsw   String
-  role        Role    @default(COSTUMER)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  role        Role           @default(COSTUMER)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  CartProducts CartProduct[] 
 }
+
 
 enum Role {
   ADMIN
   COSTUMER
+}
+model CartProduct {
+  id         Int     @id @default(autoincrement())
+  productId  Int
+  customerId Int
+  quantity   Int
+
+  Product    Product  @relation(fields: [productId], references: [ProductID])
+  User       User     @relation(fields: [customerId], references: [id])
 }

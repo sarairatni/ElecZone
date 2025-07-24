@@ -9,7 +9,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ name, price, imgUrl }: ProductCardProps) {
-  const validImgUrl = "/product.png";
+  const validImgUrl = "/4mckb1h2.png";
 
   return (
     <div className="w-40 bg-white rounded-xl p-3 shadow-md flex flex-col justify-between mb-2 ">

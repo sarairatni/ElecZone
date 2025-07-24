@@ -1,0 +1,16 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL="postgresql://postgres.stfmmjtujnliwaikotfq:22sarairatni0011@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true"
+      - DIRECT_URL="postgresql://postgres.stfmmjtujnliwaikotfq:22sarairatni0011@aws-0-eu-west-3.pooler.supabase.com:5432/postgres"
+      - JWT_SECRET=99condorsecret@
+
+  frontend:
+    build: ./front-end
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000
