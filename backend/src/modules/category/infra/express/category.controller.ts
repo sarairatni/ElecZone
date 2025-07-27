@@ -33,9 +33,12 @@ export class CategoryController {
 
   findAll = async (_: Request, res: Response) => {
     try {
+      console.log('GET /categories about ot be  called');
       const categories = await this.categoryUseCases.getAllCategories();
+      console.log('GET /categories has been called');
       res.json(categories);
     } catch (error) {
+      console.error('Error in GET /categories:', error);
       res.status(500).json({ error: "Failed to get categories" });
     }
   };

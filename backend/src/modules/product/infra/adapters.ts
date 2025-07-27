@@ -14,7 +14,7 @@ export class PrismaProductAdapter implements ProductPort {
         Price: data.Price,
         CategoryID: data.CategoryID,
         ImgUrl: data.ImgUrl,
-      },
+      },include: { Category: true }
     });
 
     return this.toOutputDTO(product);
@@ -23,13 +23,15 @@ export class PrismaProductAdapter implements ProductPort {
   async findById(id: number): Promise<ProductOutputDTO | null> {
     const product = await this.prisma.product.findUnique({
       where: { ProductID: id },
+      include: { Category: true }
     });
 
     return product ? this.toOutputDTO(product) : null;
   }
 
   async findAll(): Promise<ProductOutputDTO[]> {
-    const products = await this.prisma.product.findMany();
+
+    const products = await this.prisma.product.findMany({include: { Category: true }});
     return products.map(this.toOutputDTO);
   }
 
@@ -51,7 +53,7 @@ export class PrismaProductAdapter implements ProductPort {
         Price: data.Price,
         CategoryID: data.CategoryID,
         ImgUrl: data.ImgUrl,
-      },
+      },include: { Category: true }
     });
 
     return this.toOutputDTO(updated);
@@ -59,12 +61,27 @@ export class PrismaProductAdapter implements ProductPort {
 
   // 🔁 Mapper from Prisma model to Output DTO
   private toOutputDTO(product: any): ProductOutputDTO {
+    console.log("Prisma product with category:", product); 
     return {
       ProductID: product.ProductID,
       Name: product.Name,
+      Description: product.Description,
       Price: product.Price,
       CategoryID: product.CategoryID,
       ImgUrl: product.ImgUrl,
+      CategoryName: product.Category.Name
+    };
+  }
+  async getCategoryByProductId(productId: number): Promise<{ CategoryID: number, Name: string } | null> {
+    const product = await this.prisma.product.findUnique({
+      where: { ProductID: productId },
+      include: { Category: true }
+    });
+    console.log("Prisma product with category:", product); 
+    if (!product || !product.Category) return null;
+    return {
+      CategoryID: product.Category.CategoryID,
+      Name: product.Category.Name
     };
   }
 }

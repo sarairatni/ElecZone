@@ -21,6 +21,7 @@ export class ProductController {
     try {
       const id = Number(req.params.id);
       const product = await this.productUseCases.getProductById(id);
+      console.log("Controller product response:", product);
       if (!product) return res.status(404).json({ error: "Product not found" });
       res.json(product);
     } catch (error) {
@@ -57,7 +58,16 @@ export class ProductController {
       res.status(500).json({ error: "Failed to delete product" });
     }
   };
-
+  getCategoryByProductId = async (req: Request, res: Response) => {
+    const productId = parseInt(req.params.id, 10);
+    try {
+      const result = await this.productUseCases.getCategoryByProductId(productId);
+      if (!result) return res.status(404).json({ error: "Product or category not found" });
+      res.json(result);
+    } catch (err) {
+      res.status(500).json({ error: "Server error" });
+    }
+  };
 
 
 }

@@ -24,4 +24,7 @@ export class ProductUseCases {
   async updateProduct(id: number, data: Partial<ProductInputDTO>): Promise<ProductOutputDTO> {
     return await this.productPort.update(id, data);
   }
+  async getCategoryByProductId(productId: number): Promise<{ CategoryID: number, Name: string } | null> {
+    return await this.productPort.getCategoryByProductId(productId);
+  }
 }

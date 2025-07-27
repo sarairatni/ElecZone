@@ -20,8 +20,8 @@ export default function NavCategory({
     <button
       onClick={onClick}
       className={`px-3 py-2 border rounded-full text-xs font-medium mr-2 mb-2
-        ${selected ? "bg-[#FF7B00] text-white" : "bg-white text-[#FF7B00]"}
-        border-[#FF7B00] transition`}
+        ${selected ? "bg-[#320A6B] text-white" : "bg-white text-[#320A6B]"}
+        border-[#320A6B] transition`}
     >
       {category.name}
     </button>

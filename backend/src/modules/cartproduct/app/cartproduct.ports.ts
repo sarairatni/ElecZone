@@ -6,4 +6,6 @@ export interface CartProductRepositoryPort {
   delete(id: number): Promise<void>;
   getAll(): Promise<CartProductOutputDTO[]>;
   getById(id: number): Promise<CartProductOutputDTO | null>;
+  getByCustomerId(customerId: number): Promise<CartProductOutputDTO[]>;
+  updateQuantity(id: number, quantity: number): Promise<CartProductOutputDTO>;
 }

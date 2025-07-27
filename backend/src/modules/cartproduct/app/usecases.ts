@@ -20,4 +20,15 @@ export class CartProductUseCases {
   async getById(id: number): Promise<CartProductOutputDTO | null> {
     return this.repository.getById(id);
   }
+
+  async getByCustomerId(customerId: number): Promise<CartProductOutputDTO[]> {
+    return this.repository.getByCustomerId(customerId);
+  }
+
+  async updateQuantity(id: number, quantity: number): Promise<CartProductOutputDTO> {
+    if (quantity <= 0) {
+      throw new Error("La quantité doit être supérieure à 0");
+    }
+    return this.repository.updateQuantity(id, quantity);
+  }
 }

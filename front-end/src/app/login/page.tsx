@@ -31,8 +31,11 @@ export default function LoginPage() {
       }
 
       localStorage.setItem("token", data.token);
-
-      router.push("/home");
+      localStorage.setItem("user", JSON.stringify(data.user));
+      console.log(data);
+      console.log(data.user);
+      console.log(data.token);
+      router.push("/all-products");
     } catch (err: any) {
       setError(err.message);
     } finally {

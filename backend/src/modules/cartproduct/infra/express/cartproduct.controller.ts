@@ -47,4 +47,30 @@ export class CartProductController {
       res.status(400).json({ error: (error as Error).message });
     }
   }
+
+  async getByCustomerId(req: Request, res: Response) {
+    try {
+      const customerId = Number(req.params.customerId);
+      const result = await this.usecases.getByCustomerId(customerId);
+      res.json(result);
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
+    }
+  }
+
+  async updateQuantity(req: Request, res: Response) {
+    try {
+      const id = Number(req.params.id);
+      const { quantity } = req.body;
+      
+      if (!quantity || typeof quantity !== 'number') {
+        return res.status(400).json({ error: 'La quantité est requise et doit être un nombre' });
+      }
+
+      const result = await this.usecases.updateQuantity(id, quantity);
+      res.json(result);
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
+    }
+  }
 } 

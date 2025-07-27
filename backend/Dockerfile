@@ -1,5 +1,5 @@
-FROM node:20.10.0
-
+FROM node:20.10-alpine
+ 
 WORKDIR /app
 
 COPY package*.json ./
@@ -11,6 +11,6 @@ RUN npx prisma generate
 
 RUN npm run build
 
-EXPOSE 3001
+EXPOSE 5000
 
 CMD ["npm", "start"]

@@ -1,4 +1,6 @@
+import { redirect } from 'next/navigation';
 export default function Home() {
+  redirect('/login');
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       <h1 className="text-4xl font-bold text-blue-700 mb-12">The Main Page</h1>

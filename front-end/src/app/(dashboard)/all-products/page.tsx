@@ -21,6 +21,7 @@ export default function AllProducts() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -41,6 +42,7 @@ export default function AllProducts() {
   // Fetch products when category changes
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
         const url =
           selectedCategory === "all"
@@ -52,6 +54,8 @@ export default function AllProducts() {
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch products", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -59,7 +63,7 @@ export default function AllProducts() {
   }, [selectedCategory]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-6 bg-white-500">
       {/* Category navigation */}
       <div className="flex flex-wrap gap-2">
         {categories.map((cat) => {
@@ -89,10 +93,13 @@ export default function AllProducts() {
 
       {/* Products Grid */}
       <div className="flex flex-wrap gap-4 max-h-[600px] overflow-y-auto">
-        {products.length > 0 ? (
+        {loading ? (
+          <p className="text-gray-400 italic">Loading products...</p>
+        ) : products.length > 0 ? (
           products.map((p) => (
             <ProductCard
               key={p.ProductID}
+              id={p.ProductID.toString()}
               name={p.Name}
               price={p.Price}
               imgUrl={p.ImgUrl}

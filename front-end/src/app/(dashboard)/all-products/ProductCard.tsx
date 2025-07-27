@@ -1,15 +1,22 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
+  id: string;
   name: string;
   price: number;
   imgUrl?: string;
 }
 
-export default function ProductCard({ name, price, imgUrl }: ProductCardProps) {
+export default function ProductCard({ id, name, price, imgUrl }: ProductCardProps) {
+  const router = useRouter();
   const validImgUrl = "/4mckb1h2.png";
+
+  const handleRedirect = () => {
+    router.push(`/product-details/${id}`);
+  };
 
   return (
     <div className="w-40 bg-white rounded-xl p-3 shadow-md flex flex-col justify-between mb-2 ">
@@ -29,7 +36,10 @@ export default function ProductCard({ name, price, imgUrl }: ProductCardProps) {
         </p>
       </div>
 
-      <button className="mt-2 w-full text-xs rounded-lg bg-orange-500 text-white py-1 hover:bg-orange-600">
+      <button
+        className="mt-2 w-full text-xs rounded-lg bg-[#E8988A] text-white py-1 hover:bg-[#E8988A]"
+        onClick={handleRedirect}
+      >
         Add to cart
       </button>
     </div>
