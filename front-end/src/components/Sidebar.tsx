@@ -2,19 +2,34 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
 
-const routes = [
+import { useState, useEffect } from "react";
+
+const customerRoutes = [
   { name: "Produits", path: "/all-products" },
   { name: "Mon panier", path: "/cart" },
   { name: "Mes commandes", path: "/my-orders" },
-  // { name: "Profile", path: "/all-products" },
+];
+
+const adminRoutes = [
+  { name: "Gestion Produits", path: "/gestion-produits" },
+  { name: "Gestion Commandes", path: "/gestion-commandes" },
+  { name: "Gestion Utilisateurs", path: "/gestion-utilisateurs" },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const [showLogout, setShowLogout] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      const userData = JSON.parse(user);
+      setUserRole(userData.role);
+    }
+  }, []);
 
   const handleLogout = () => {
     setShowLogout(true);
@@ -31,10 +46,15 @@ export default function Sidebar() {
     setShowLogout(false);
   };
 
+  // Determine which routes to show based on user role
+  const routes = userRole === "ADMIN" ? adminRoutes : customerRoutes;
+
   return (
     <div className="w-64 bg-white text-gray-700 min-h-screen p-4 flex flex-col justify-between shadow-sm border-r border-gray-300">
       <div>
-        <h2 className="text-xl font-bold mb-6 text-[#050EAD]">MyCondor</h2>
+        <h2 className="text-xl font-bold mb-6 text-[#050EAD]">
+          {userRole === "ADMIN" ? "Admin Dashboard" : "MyCondor"}
+        </h2>
 
         <ul className="space-y-1">
           {routes.map((route) => {

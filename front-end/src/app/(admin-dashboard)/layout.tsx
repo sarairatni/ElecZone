@@ -1,6 +1,6 @@
 import Sidebar from "@/components/Sidebar";
 import Navbar from "@/components/Navbar";
-import CustomerGuard from "@/components/CustomerGuard";
+import AdminGuard from "@/components/AdminGuard";
 import "@/app/globals.css";
 
 export default function DashboardLayout({
@@ -9,7 +9,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <CustomerGuard>
+    <AdminGuard>
       <div className="flex h-screen w-full">
         <Sidebar />
         <div className="flex flex-col flex-1">
@@ -17,6 +17,6 @@ export default function DashboardLayout({
           <main className="flex-1 bg-gray-50 overflow-auto">{children}</main>
         </div>
       </div>
-    </CustomerGuard>
+    </AdminGuard>
   );
 }
