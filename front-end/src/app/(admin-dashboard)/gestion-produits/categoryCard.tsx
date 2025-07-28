@@ -8,6 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
+import ProductTable from "./productTable";
 
 interface CategoryCardProps {
   id: number;
@@ -17,7 +18,7 @@ interface CategoryCardProps {
 }
 
 export default function CategoryCard({ id, name, onEdit, onDelete }: CategoryCardProps) {
-const actionsId = `category-actions-${id}`;
+  const actionsId = `category-actions-${id}`;
   return (
     <Box sx={{ position: 'relative' }}>
       <Accordion>
@@ -31,7 +32,8 @@ const actionsId = `category-actions-${id}`;
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
+          {/* Display the product table here */}
+          <ProductTable categoryId={id} />
         </AccordionDetails>
       </Accordion>
       {/* Action icons absolutely positioned to the right, outside the summary button */}

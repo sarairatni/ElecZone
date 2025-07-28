@@ -173,7 +173,7 @@ export default function GestionProduits() {
   };
 
   return (
-    <div className="">
+    <div className="pb-4">
       <div className="p-5">
         <h1 className="text-2xl font-bold text-gray-900">Gestion des Produits</h1>
         <p className="text-gray-600 text-sm mt-2">
