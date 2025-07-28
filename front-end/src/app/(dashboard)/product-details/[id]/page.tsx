@@ -102,10 +102,10 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
         </div>
         {/* Left: Product Details */}
         <div className="flex-1 flex flex-col gap-6 w-full">
-          <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-          <div className="text-base text-gray-700 mb-2 text-left whitespace-pre-line">{product.description}</div>
-          <div className="text-xl font-semibold mt-2 mb-2">
-            Total Price: <span className="text-green-600">{(product.price * quantity).toFixed(2)} DA</span>
+          <h1 className="text-xl font-bold mb-2 text-black">{product.name}</h1>
+          <div className="text-sm text-gray-700 mb-2 text-left whitespace-pre-line">{product.description}</div>
+          <div className="text-base text-gray-700 font-semibold mt-2 mb-2">
+            Total Price: <span className="text-[#00D886]">{(product.price * quantity).toFixed(2)} DA</span>
           </div>
           {/* Quantity Selector */}
           <div className="flex flex-col items-start gap-2">
@@ -129,7 +129,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
             <div className="text-xs text-gray-400 mt-1">Max: {MAX_QUANTITY}</div>
           </div>
           <button
-            className="mt-6 w-full rounded-lg bg-orange-500 text-white py-3 hover:bg-orange-600 text-lg font-semibold shadow"
+            className="mt-6 w-full rounded-lg bg-[#FF6767] text-white py-2 hover:bg-[#FF6767]/80 text-base font-semibold shadow"
             onClick={handleAddToCart}
           >
             Add to cart

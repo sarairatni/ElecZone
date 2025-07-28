@@ -3,6 +3,7 @@ import productRoutes from "./modules/product/infra/express/routes/product.routes
 import categoryRoutes from "./modules/category/infra/express/category.routes";
 import userRoutes from "./modules/user/infra/express/user.routes";
 import cartProductRouter from "./modules/cartproduct/infra/express/cartproduct.routes";
+import orderRoutes from "./modules/order/infra/express/order.routes";
 import cors from "cors";
 import dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
@@ -24,6 +25,7 @@ app.use("/", userRoutes);
 app.use("/products", productRoutes);
 app.use("/categories", categoryRoutes);
 app.use('/cartproducts', cartProductRouter);
+app.use('/orders', orderRoutes);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error('Global error handler:', err.stack || err);

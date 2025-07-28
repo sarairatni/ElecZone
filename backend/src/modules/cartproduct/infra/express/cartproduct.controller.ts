@@ -73,4 +73,14 @@ export class CartProductController {
       res.status(400).json({ error: (error as Error).message });
     }
   }
+
+  async deleteAllByCustomerId(req: Request, res: Response) {
+    try {
+      const customerId = Number(req.params.customerId);
+      await this.usecases.deleteAllByCustomerId(customerId);
+      res.status(204).send();
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
+    }
+  }
 } 

@@ -31,4 +31,11 @@ export class CartProductUseCases {
     }
     return this.repository.updateQuantity(id, quantity);
   }
+
+  async deleteAllByCustomerId(customerId: number): Promise<void> {
+    if (!customerId || customerId <= 0) {
+      throw new Error("ID client invalide");
+    }
+    return this.repository.deleteAllByCustomerId(customerId);
+  }
 }

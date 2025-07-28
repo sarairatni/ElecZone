@@ -14,5 +14,6 @@ router.get('/', (req, res) => controller.getAll(req, res));
 router.get('/:id', (req, res) => controller.getById(req, res));
 router.get('/customer/:customerId', (req, res) => controller.getByCustomerId(req, res));
 router.put('/:id/quantity', (req, res) => controller.updateQuantity(req, res));
+router.delete('/customer/:customerId/all', (req, res) => controller.deleteAllByCustomerId(req, res));
 
 export default router; 

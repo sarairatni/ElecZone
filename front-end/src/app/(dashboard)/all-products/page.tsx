@@ -30,7 +30,7 @@ export default function AllProducts() {
           `${process.env.NEXT_PUBLIC_API_URL}/categories`
         );
         const data = await res.json();
-        setCategories([{ CategoryID: -1, Name: "All Categories" }, ...data]);
+        setCategories([{ CategoryID: -1, Name: "All Products" }, ...data]);
       } catch (error) {
         console.error("Failed to fetch categories", error);
       }
@@ -63,7 +63,8 @@ export default function AllProducts() {
   }, [selectedCategory]);
 
   return (
-    <div className="space-y-4 p-6 bg-white-500">
+    <div className="space-y-4 p-6 bg-white">
+      <h1 className="text-2xl font-bold text-gray-900 mb-4">Products</h1>
       {/* Category navigation */}
       <div className="flex flex-wrap gap-2">
         {categories.map((cat) => {
@@ -81,20 +82,23 @@ export default function AllProducts() {
 
       {/* Info header */}
 
+      {selectedCategory !== "all" && (
       <div>
-        <h2 className="text-lg font-semibold mb-2">
-          Products{" "}
-          {
-            categories.find((c) => c.CategoryID.toString() === selectedCategory)
-              ?.Name
-          }
+          <h2 className="text-base font-semibold text-gray-800 mb-2">
+            {categories.find((c) => c.CategoryID.toString() === selectedCategory)?.Name}
         </h2>
       </div>
+      )}
 
       {/* Products Grid */}
       <div className="flex flex-wrap gap-4 max-h-[600px] overflow-y-auto">
         {loading ? (
-          <p className="text-gray-400 italic">Loading products...</p>
+          <div className="w-full flex items-center justify-center py-12">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+              <p className="mt-4 text-gray-600">Chargement des produits...</p>
+            </div>
+          </div>
         ) : products.length > 0 ? (
           products.map((p) => (
             <ProductCard
@@ -106,7 +110,7 @@ export default function AllProducts() {
             />
           ))
         ) : (
-          <p className="text-gray-400 italic">No products to display.</p>
+          <p className="text-gray-500 italic">No products to display.</p>
         )}
       </div>
     </div>

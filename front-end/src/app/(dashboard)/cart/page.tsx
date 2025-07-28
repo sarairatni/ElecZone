@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import CartItem from "./CartItem";
+import { useRouter } from "next/navigation";
 
 interface CartProduct {
   id: number;
@@ -24,6 +25,7 @@ interface CartProduct {
 }
 
 export default function CartPage() {
+  const router = useRouter();
   const [cartItems, setCartItems] = useState<CartProduct[]>([]);
   const [userid, setUserid] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
@@ -157,7 +159,21 @@ export default function CartPage() {
   };
 
   const handleCheckout = () => {
-    // Logique pour passer la commande
+    // Préparer les données pour order-form
+    const orderData = {
+      customerId: userid,
+      items: cartItems.map(item => ({
+        productId: item.Product.ProductID,
+        quantity: item.quantity,
+        unitPrice: item.Product.Price
+      })),
+      totalPrice: calculateTotalPrice()
+    };
+    
+    // Sauvegarder dans localStorage
+    localStorage.setItem('orderData', JSON.stringify(orderData));
+    
+    router.push('/order-form');
     console.log("Passer la commande...");
   };
 
@@ -189,7 +205,7 @@ export default function CartPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Titre et nombre de produits */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Panier</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Panier</h1>
           <p className="text-gray-600">
             {cartItems.length} produit{cartItems.length > 1 ? 's' : ''} dans ton panier
           </p>
@@ -238,7 +254,7 @@ export default function CartPage() {
                 <div className="border-t pt-3">
                   <div className="flex justify-between text-lg font-bold text-gray-900">
                     <span>Total</span>
-                    <span>{totalPrice.toLocaleString('ar-DZ')} DA</span>
+                    <span className="text-[#00D886]">{totalPrice.toLocaleString('ar-DZ')} DA</span>
                   </div>
                 </div>
               </div>
@@ -246,7 +262,8 @@ export default function CartPage() {
               <button
                 onClick={handleCheckout}
                 disabled={cartItems.length === 0}
-                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="w-full bg-[#FF6767] text-white py-3 px-4 rounded-lg font-semibold hover:bg-[#FF6767]/80 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+               
               >
                 Passer une commande
               </button>

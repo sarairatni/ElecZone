@@ -20,7 +20,8 @@ export default function CartItem({ id, productId, customerId, quantity, product,
   const price = product.Price;
   const name = product?.Name || "Produit inconnu";
   const description = product?.Description;
-  const image = product?.ImgUrl;
+  const image = "/4mckb1h2.png";
+  // product?.ImgUrl ;
 
   const handleDelete = async () => {
     try {
@@ -49,9 +50,9 @@ export default function CartItem({ id, productId, customerId, quantity, product,
   };
 
   return (
-    <div className="flex items-center gap-4 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 border-b border-gray-200">
       {/* Image du produit */}
-      <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center">
+      <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
         {image ? (
           <img 
             src={image} 
@@ -64,13 +65,13 @@ export default function CartItem({ id, productId, customerId, quantity, product,
       </div>
 
       {/* Informations du produit */}
-      <div className="flex-1">
-        <h3 className="font-semibold text-gray-900">{name}</h3>
+      <div className="flex-1 min-w-0">
+        <h3 className="font-semibold text-gray-900 truncate">{name}</h3>
         {description && (
-          <p className="text-sm text-gray-600 mt-1">{description}</p>
+          <p className="text-xs text-gray-600 mt-1 line-clamp-2">{description}</p>
         )}
-        <div className="flex items-center gap-4 mt-2">
-          <span className="text-lg font-bold text-blue-600">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2">
+          <span className="text-base font-bold text-[#050EAD]">
             {price.toLocaleString('ar-DZ')} DA
           </span>
           <span className="text-sm text-gray-500">
@@ -80,25 +81,25 @@ export default function CartItem({ id, productId, customerId, quantity, product,
       </div>
 
       {/* Actions */}
-      <div className="flex flex-col items-end gap-2">
+      <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 w-full sm:w-auto">
         <div className="flex items-center gap-2">
           <button 
             onClick={handleDecrement}
-            className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center"
+            className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-semibold"
           >
             -
           </button>
-          <span className="w-8 text-center">{quantity}</span>
+          <span className="w-8 text-gray-700 text-center">{quantity}</span>
           <button 
             onClick={handleIncrement}
-            className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center"
+            className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-semibold"
           >
             +
           </button>
         </div>
         <button 
           onClick={handleDelete}
-          className="text-red-500 hover:text-red-700 text-sm"
+          className="text-red-500 hover:text-red-700 hover:underline text-xs"
         >
           Supprimer
         </button>

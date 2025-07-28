@@ -63,4 +63,10 @@ export class CartProductPrismaAdapter implements CartProductRepositoryPort {
       }
     });
   }
+
+  async deleteAllByCustomerId(customerId: number): Promise<void> {
+    await prisma.cartProduct.deleteMany({
+      where: { customerId }
+    });
+  }
 }

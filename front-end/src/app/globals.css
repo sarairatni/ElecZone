@@ -17,6 +17,9 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --color-primary: #ff6767;
+    --color-secondary: #050ead;
+    --color-success: #00d886;
   }
 }
 

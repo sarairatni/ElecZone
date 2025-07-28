@@ -13,6 +13,7 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
 model Product {
   ProductID   Int            @id @default(autoincrement())
   Name        String
@@ -21,8 +22,10 @@ model Product {
   ImgUrl      String?
   CategoryID  Int
   Category    Category       @relation(fields: [CategoryID], references: [CategoryID], onDelete: Cascade)
-  CartProducts CartProduct[] // <--- Add this line
+  CartProducts CartProduct[] 
+  OrderItems  OrderItem[]    // Relation avec les commandes
 }
+
 model Category {
   CategoryID  Int       @id @default(autoincrement())
   Name        String    @unique
@@ -39,13 +42,14 @@ model User {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   CartProducts CartProduct[] 
+  Orders      Order[]
 }
-
 
 enum Role {
   ADMIN
   COSTUMER
 }
+
 model CartProduct {
   id         Int     @id @default(autoincrement())
   productId  Int
@@ -54,4 +58,44 @@ model CartProduct {
 
   Product    Product  @relation(fields: [productId], references: [ProductID])
   User       User     @relation(fields: [customerId], references: [id])
+}
+
+model Order {
+  id            Int       @id @default(autoincrement())
+  customerFname String
+  customerLname String
+  customerPhone String
+  customerId    Int
+  wilaya        String
+  commune       String
+  postalCode    String?
+  detailedAddress String
+  totalPrice    Float
+  status        OrderStatus @default(PENDING)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  User          User      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  OrderItems    OrderItem[] // Relation avec les produits de la commande
+}
+
+// Nouveau modèle pour lier les commandes aux produits
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+  unitPrice Float   // Prix unitaire au moment de la commande
+  totalPrice Float  // Prix total pour ce produit (quantity * unitPrice)
+
+  Order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  Product   Product @relation(fields: [productId], references: [ProductID])
+
+  @@unique([orderId, productId])
+}
+
+enum OrderStatus {
+  PENDING
+  ACCEPTED
+  DELIVERED
 }
