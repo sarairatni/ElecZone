@@ -22,6 +22,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -49,16 +50,21 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
     fetchProduct();
   }, [id]);
 
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
   const handleQuantityChange = (delta: number) => {
     setQuantity((q) => Math.max(1, Math.min(MAX_QUANTITY, q + delta)));
   };
 
   const handleAddToCart = async () => {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
-    console.log(user);
     const customerId = user.id;
     if (!customerId) {
-      alert("You must be logged in to add to cart.");
       return;
     }
     try {
@@ -78,6 +84,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
     }
   };
 
+  if (!isLoggedIn) router.push("/unauthorized");
   if (loading) return <div>Loading...</div>;
   if (!product) return <div>Product not found.</div>;
 

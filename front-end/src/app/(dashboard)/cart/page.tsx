@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import { useRouter } from "next/navigation";
 
+
 interface CartProduct {
   id: number;
   productId: number;
@@ -186,6 +187,10 @@ export default function CartPage() {
         </div>
       </div>
     );
+  }
+
+  if (error === "Utilisateur non connecté" || !userid) {
+   router.push("/shared/401");
   }
 
   if (error) {

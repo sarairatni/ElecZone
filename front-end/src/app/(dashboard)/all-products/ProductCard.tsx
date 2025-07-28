@@ -15,6 +15,11 @@ export default function ProductCard({ id, name, price, imgUrl }: ProductCardProp
   const validImgUrl = "/4mckb1h2.png";
 
   const handleRedirect = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/shared/401");
+      return;
+    }
     router.push(`/product-details/${id}`);
   };
 
