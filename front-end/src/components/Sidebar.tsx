@@ -5,6 +5,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const customerRoutes = [
   { name: "Produits", path: "/all-products" },
@@ -115,38 +121,82 @@ export default function Sidebar({ sidebarOpen = true, setSidebarOpen }: SidebarP
         </button>
 
         {/* Logout confirmation popup */}
-        {showLogout && (
-          <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Confirmer la déconnexion</h3>
-                <button
-                  onClick={cancelLogout}
-                  className="text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              <p className="text-gray-700 mb-6">Voulez-vous vraiment vous déconnecter ?</p>
-              <div className="flex gap-3">
-                <button
-                  onClick={cancelLogout}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Annuler
-                </button>
-                <button
-                  onClick={confirmLogout}
-                  className="flex-1 px-4 py-2 bg-[#ff6767] text-white rounded-lg hover:bg-[#ff6767]/80 transition-colors"
-                >
-                  Se déconnecter
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <Dialog open={showLogout} onClose={cancelLogout} maxWidth="xs" fullWidth
+          PaperProps={{
+            sx: {
+              borderRadius: 3,
+              py: 2,
+              minHeight: 280,
+            },
+          }}
+        >
+          <DialogTitle
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1.5,
+              fontSize: 28,
+              fontWeight: 700,
+              color: 'black',
+              pb: 0,
+              pt: 2,
+            }}
+          >
+            <LogoutIcon sx={{ color: '#050EAD', fontSize: 40, mr: 1 }} />
+            <span style={{ fontWeight: 700, fontSize: 28, color: 'black' }}>Logout</span>
+          </DialogTitle>
+          <DialogContent
+            sx={{
+              fontSize: 16,
+              color: 'text.primary',
+              pt: 2,
+              pb: 3,
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            Voulez-vous vraiment vous déconnecter ?
+          </DialogContent>
+          <DialogActions
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: 1.5,
+              pb: 3,
+              px: 3,
+              justifyContent: 'center',
+            }}
+          >
+            <Button
+              onClick={cancelLogout}
+              variant="outlined"
+              sx={{
+                width: { xs: '100%', sm: 'auto' },
+                fontWeight: 600,
+                color: '#050EAD',
+                borderColor: '#050EAD',
+                '&:hover': { borderColor: '#050EAD', bgcolor: '#f0f4ff' },
+              }}
+            >
+              Annuler
+            </Button>
+            <Button
+              onClick={confirmLogout}
+              variant="contained"
+              sx={{
+                bgcolor: '#FF6767',
+                color: '#fff',
+                width: { xs: '100%', sm: 'auto' },
+                fontWeight: 600,
+                '&:hover': { bgcolor: '#ff4c4c' },
+              }}
+            >
+              Se déconnecter
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
 
       {/* Overlay when sidebar is open (click to close) */}

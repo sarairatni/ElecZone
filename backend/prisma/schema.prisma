@@ -56,8 +56,8 @@ model CartProduct {
   customerId Int
   quantity   Int
 
-  Product    Product  @relation(fields: [productId], references: [ProductID])
-  User       User     @relation(fields: [customerId], references: [id])
+  Product    Product  @relation(fields: [productId], references: [ProductID], onDelete: Cascade)
+  User       User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
 }
 
 model Order {
@@ -89,7 +89,7 @@ model OrderItem {
   totalPrice Float  // Prix total pour ce produit (quantity * unitPrice)
 
   Order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  Product   Product @relation(fields: [productId], references: [ProductID])
+  Product   Product @relation(fields: [productId], references: [ProductID],  onDelete: Cascade)
 
   @@unique([orderId, productId])
 }

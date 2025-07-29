@@ -39,7 +39,7 @@ export class PrismaProductAdapter implements ProductPort {
     await this.prisma.product.delete({
       where: { ProductID: id },
     });
-  }
+  } 
 
   async update(
     id: number,

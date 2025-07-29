@@ -187,7 +187,7 @@ export default function GestionProduits() {
             className="bg-[#FF6767] text-white text-xs px-4 py-2 rounded-lg hover:bg-[#ff6767]/80 transition-colors flex items-center gap-1"
             onClick={handleOpen}
           >
-            Ajouter une Catégorie
+           nouvelle catégorie
             <AddIcon fontSize="small" />
           </button>
         </div>
