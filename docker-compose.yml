@@ -2,7 +2,7 @@ services:
   backend:
     build: ./backend
     ports:
-      - "5000:5000"
+      - "5001:5001"
     environment:
       - DATABASE_URL=postgresql://postgres.stfmmjtujnliwaikotfq:22sarairatni0011@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true
       - DIRECT_URL=postgresql://postgres.stfmmjtujnliwaikotfq:22sarairatni0011@aws-0-eu-west-3.pooler.supabase.com:5432/postgres
@@ -13,4 +13,4 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:5000
+      - NEXT_PUBLIC_API_URL=http://localhost:5001
