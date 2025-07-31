@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   backend:
     build: ./backend
@@ -9,11 +11,15 @@ services:
       - JWT_SECRET=99condorsecret@
 
   frontend:
-    build: ./front-end
+    build:
+      context: ./front-end
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:5001
+        NEXT_PUBLIC_SUPABASE_URL: https://stfmmjtujnliwaikotfq.supabase.co
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     ports:
       - "3000:3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:5001
       - NEXT_PUBLIC_SUPABASE_URL=https://stfmmjtujnliwaikotfq.supabase.co
-      - NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0Zm1tanR1am5saXdhaWtvdGZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyODQxNzcsImV4cCI6MjA2ODg2MDE3N30.Zf8z6XD2BsjSZcjXfOnTC2cC0ggTOR6okIzpJfTPLJg
- 
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...

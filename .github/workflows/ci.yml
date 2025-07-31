@@ -31,4 +31,4 @@ jobs:
         run: |
           docker compose down || true
           docker compose up --build -d
-          docker ps  # Optional: show running containers
+          docker ps 
