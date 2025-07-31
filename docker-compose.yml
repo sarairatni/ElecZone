@@ -3,6 +3,8 @@ services:
     build: ./backend
     ports:
       - "5000:5000"
+    env_file:
+      - .env
     environment:
       - DATABASE_URL=postgresql://postgres.stfmmjtujnliwaikotfq:22sarairatni0011@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true
       - DIRECT_URL=postgresql://postgres.stfmmjtujnliwaikotfq:22sarairatni0011@aws-0-eu-west-3.pooler.supabase.com:5432/postgres
@@ -13,4 +15,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:5000
+      - NEXT_PUBLIC_API_URL=http://backend:5000
+      - NEXT_PUBLIC_SUPABASE_URL=https://stfmmjtujnliwaikotfq.supabase.co
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0Zm1tanR1am5saXdhaWtvdGZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyODQxNzcsImV4cCI6MjA2ODg2MDE3N30.Zf8z6XD2BsjSZcjXfOnTC2cC0ggTOR6okIzpJfTPLJg
+
+    depends_on:
+      - backend
