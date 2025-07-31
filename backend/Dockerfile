@@ -3,14 +3,18 @@ FROM node:20.10-alpine
 WORKDIR /app
 
 COPY package*.json ./
+
+COPY prisma ./prisma
+
 RUN npm install
 
 COPY . .
 
-RUN npx prisma generate
+
+# RUN npx prisma generate
 
 RUN npm run build
 
-EXPOSE 5000
+EXPOSE 5001
 
 CMD ["npm", "start"]
