@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 interface UserOutputDTO {
   id: number;
   fname: string;
-  lastname: string; 
+  lname: string; 
   email: string;
   role: string;
   createdAt: string;
@@ -48,8 +48,8 @@ export function EditUserDialog({ open, user, onClose, onSave, roles}: EditDialog
         <TextField label="ID" value={formData?.id ?? ''} fullWidth disabled />
         <TextField
           label="Nom"
-          value={formData?.lastname ?? ''} 
-          onChange={(e) => handleChange('lastname', e.target.value)} 
+          value={formData?.lname ?? ''} 
+          onChange={(e) => handleChange('lname', e.target.value)} 
           fullWidth
         />
         <TextField

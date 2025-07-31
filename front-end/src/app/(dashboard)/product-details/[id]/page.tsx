@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, use } from "react";
 import Image from "next/image";
 import React from "react";
+import { supabase } from "../../../../utils/supabaseClient";
 
 interface Product {
   id: string;
@@ -19,10 +20,12 @@ const MAX_QUANTITY = 10;
 export default function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params) as { id: string };
   const router = useRouter();
+
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [imageUrl, setImageUrl] = useState<string>("/photo.png");
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -31,30 +34,41 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`);
         if (!res.ok) throw new Error("Failed to fetch product");
         const data = await res.json();
-        console.log("Frontend API response:", data)
+        console.log("Frontend API response:", data);
+
         const mappedProduct = {
           id: data.ProductID,
           name: data.Name,
-          description:"Experience the next level of innovation with the all-new Google Pixel 8 Pro. Featuring a stunning 6.7-inch OLED display, lightning-fast performance, and an advanced triple-lens camera system, this smartphone is designed to capture every moment in brilliant detail. With all-day battery life, seamless integration with your favorite apps, and a sleek, modern design, the Pixel 8 Pro is the perfect companion for work, play, and everything in between.",
+          description: "Default description", // ou data.Description
           price: Number(data.Price),
           imgUrl: data.ImgUrl,
           category: { name: data.CategoryName || "" },
         };
+
         setProduct(mappedProduct);
+
+        if (data.ImgUrl && !data.ImgUrl.startsWith("http")) {
+          const { data: imageData } = supabase.storage
+            .from("products")
+            .getPublicUrl(data.ImgUrl);
+          setImageUrl(imageData.publicUrl);
+        } else {
+          setImageUrl(data.ImgUrl || "/photo.png");
+        }
+
       } catch (err) {
         setProduct(null);
       } finally {
         setLoading(false);
       }
     };
+
     fetchProduct();
   }, [id]);
 
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (!user) {
-      setIsLoggedIn(false);
-    }
+    if (!user) setIsLoggedIn(false);
   }, []);
 
   const handleQuantityChange = (delta: number) => {
@@ -64,9 +78,8 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
   const handleAddToCart = async () => {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     const customerId = user.id;
-    if (!customerId) {
-      return;
-    }
+    if (!customerId) return;
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cartproducts`, {
         method: "POST",
@@ -89,32 +102,30 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
   if (!product) return <div>Product not found.</div>;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      {/* Breadcrumb */}
+    <div className="p-6 max-w-4xl mx-auto min-h-screen">
       <div className="text-xs mb-6 text-gray-500">
         Categories &gt; {product.category?.name || "Unknown Category"}
       </div>
       <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start">
-        {/* Right: Product Image */}
         <div className="md:order-2 flex-1 flex flex-col items-center justify-start w-full md:w-auto">
           <div className="bg-white rounded-xl shadow-md p-4 flex items-center justify-center w-full md:w-[350px] h-[350px]">
             <Image
-              src={ "/4mckb1h2.png"}
-              alt={ "Product Image"}
+              src={imageUrl}
+              alt={product.name}
               width={300}
               height={300}
               className="rounded-lg object-cover max-h-[300px] max-w-full"
             />
           </div>
         </div>
-        {/* Left: Product Details */}
         <div className="flex-1 flex flex-col gap-6 w-full">
           <h1 className="text-xl font-bold mb-2 text-black">{product.name}</h1>
-          <div className="text-sm text-gray-700 mb-2 text-left whitespace-pre-line">{product.description}</div>
+          <div className="text-sm text-gray-700 mb-2 text-left whitespace-pre-line">
+            {product.description}
+          </div>
           <div className="text-base text-gray-700 font-semibold mt-2 mb-2">
             Total Price: <span className="text-[#00D886]">{(product.price * quantity).toFixed(2)} DA</span>
           </div>
-          {/* Quantity Selector */}
           <div className="flex flex-col items-start gap-2">
             <div className="flex items-center gap-4">
               <button
@@ -145,4 +156,4 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
       </div>
     </div>
   );
-} 
+}

@@ -22,7 +22,10 @@ export default function AllProducts() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredProducts = products.filter((p) =>
+    p.Name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -39,7 +42,6 @@ export default function AllProducts() {
     fetchCategories();
   }, []);
 
-  // Fetch products when category changes
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -63,7 +65,7 @@ export default function AllProducts() {
   }, [selectedCategory]);
 
   return (
-    <div className="space-y-4 p-6 bg-white">
+    <div className="space-y-4 p-6 bg-gray-50 min-h-screen ">
       <h1 className="text-2xl font-bold text-gray-900 mb-4">Products</h1>
       {/* Category navigation */}
       <div className="flex flex-wrap gap-2">
@@ -80,6 +82,20 @@ export default function AllProducts() {
         })}
       </div>
 
+
+      <div className="mt-4">
+  <input
+    type="text"
+    placeholder={
+      selectedCategory === "all"
+        ? "Recherche d’un produit"
+        : `Recherche d’un produit "${categories.find((c) => c.CategoryID.toString() === selectedCategory)?.Name}"`
+    }
+    className="w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-full bg-white text-gray-800 placeholder:text-gray-400 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+</div>
       {/* Info header */}
 
       {selectedCategory !== "all" && (
@@ -99,8 +115,8 @@ export default function AllProducts() {
               <p className="mt-4 text-gray-600">Chargement des produits...</p>
             </div>
           </div>
-        ) : products.length > 0 ? (
-          products.map((p) => (
+        ) : filteredProducts.length > 0 ? (
+          filteredProducts.map((p) => (
             <ProductCard
               key={p.ProductID}
               id={p.ProductID.toString()}

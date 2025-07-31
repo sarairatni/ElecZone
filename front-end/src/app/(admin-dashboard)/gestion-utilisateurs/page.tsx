@@ -18,7 +18,7 @@ import { RegisterUserDTO } from './CreateUserDialog';
 interface UserOutputDTO {
     id: number;
     fname: string;
-    lastname: string;
+    lname: string;
     email: string;
     role: string;
     createdAt: string;
@@ -181,8 +181,8 @@ const handleCreateUser = async (newUser: RegisterUserDTO) => {
               {filteredUsers.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell>{user.id}</TableCell>
+                  <TableCell>{user.lname}</TableCell>
                   <TableCell>{user.fname}</TableCell>
-                  <TableCell>{user.lastname}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.role}</TableCell>
                   <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
