@@ -25,9 +25,9 @@ jobs:
 
       - name: Build frontend Docker image
         run: |
-          docker build --no-cache -t my-frontend-image ./fron-tend
+          docker build --no-cache -t my-frontend-image ./front-end
 
-      - name: 🛠️ Build and run containers
+      - name: Build and run containers
         run: |
           docker compose down || true
           docker compose up --build -d
