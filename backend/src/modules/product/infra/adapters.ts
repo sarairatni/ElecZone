@@ -39,7 +39,7 @@ export class PrismaProductAdapter implements ProductPort {
     await this.prisma.product.delete({
       where: { ProductID: id },
     });
-  }
+  } 
 
   async update(
     id: number,
@@ -59,7 +59,6 @@ export class PrismaProductAdapter implements ProductPort {
     return this.toOutputDTO(updated);
   }
 
-  // 🔁 Mapper from Prisma model to Output DTO
   private toOutputDTO(product: any): ProductOutputDTO {
     console.log("Prisma product with category:", product); 
     return {

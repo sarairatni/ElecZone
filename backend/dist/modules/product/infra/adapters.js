@@ -24,7 +24,7 @@ class PrismaProductAdapter {
                     Price: data.Price,
                     CategoryID: data.CategoryID,
                     ImgUrl: data.ImgUrl,
-                },
+                }, include: { Category: true }
             });
             return this.toOutputDTO(product);
         });
@@ -33,13 +33,14 @@ class PrismaProductAdapter {
         return __awaiter(this, void 0, void 0, function* () {
             const product = yield this.prisma.product.findUnique({
                 where: { ProductID: id },
+                include: { Category: true }
             });
             return product ? this.toOutputDTO(product) : null;
         });
     }
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const products = yield this.prisma.product.findMany();
+            const products = yield this.prisma.product.findMany({ include: { Category: true } });
             return products.map(this.toOutputDTO);
         });
     }
@@ -60,20 +61,37 @@ class PrismaProductAdapter {
                     Price: data.Price,
                     CategoryID: data.CategoryID,
                     ImgUrl: data.ImgUrl,
-                },
+                }, include: { Category: true }
             });
             return this.toOutputDTO(updated);
         });
     }
-    // 🔁 Mapper from Prisma model to Output DTO
     toOutputDTO(product) {
+        console.log("Prisma product with category:", product);
         return {
             ProductID: product.ProductID,
             Name: product.Name,
+            Description: product.Description,
             Price: product.Price,
             CategoryID: product.CategoryID,
             ImgUrl: product.ImgUrl,
+            CategoryName: product.Category.Name
         };
+    }
+    getCategoryByProductId(productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const product = yield this.prisma.product.findUnique({
+                where: { ProductID: productId },
+                include: { Category: true }
+            });
+            console.log("Prisma product with category:", product);
+            if (!product || !product.Category)
+                return null;
+            return {
+                CategoryID: product.Category.CategoryID,
+                Name: product.Category.Name
+            };
+        });
     }
 }
 exports.PrismaProductAdapter = PrismaProductAdapter;

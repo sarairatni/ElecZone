@@ -22,6 +22,35 @@ export class UserController {
     }
   };
 
+
+  findAll = async (_: Request,res:Response) =>{
+try{
+const users = await this.useCases.getAllUsers();
+  res.json(users);
+}catch(error){
+  res.status(500).json({error:"Failed to get all users"});
+}
+  }
+  delete = async (req: Request, res: Response) => {
+try{
+const id = Number(req.params.id);
+await this.useCases.deleteUser(id);
+}catch(error) {
+  res.status(500).json({ error: "Failed to delete user" });
+}
+  }
+  update = async (req: Request, res: Response) => {
+    try {
+      const id = Number(req.params.id);
+      const data = req.body;
+      const updated = await this.useCases.updateUser(id, data);
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update user" });
+    }
+  };
+
+
   // getProfile = async (req: Request, res: Response) => {
   //   const userId = req.user.userId;
   //   const user = await this.useCases.getById(userId);

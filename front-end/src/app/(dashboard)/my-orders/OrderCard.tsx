@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import OrderItem from "./OrderItem";
+import OrderItem from "./orderItem";
 
 interface OrderItemType {
   id: number;

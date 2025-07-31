@@ -11,6 +11,7 @@ export class ProductController {
     try {
       const data: ProductInputDTO = req.body;
       const created = await this.productUseCases.createProduct(data);
+      
       res.status(201).json(created);
     } catch (error) {
       res.status(500).json({ error: "Failed to create product" });
@@ -54,10 +55,12 @@ export class ProductController {
       const id = Number(req.params.id);
       await this.productUseCases.deleteProduct(id);
       res.status(204).send();
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Delete product error:', error); 
       res.status(500).json({ error: "Failed to delete product" });
     }
   };
+
   getCategoryByProductId = async (req: Request, res: Response) => {
     const productId = parseInt(req.params.id, 10);
     try {

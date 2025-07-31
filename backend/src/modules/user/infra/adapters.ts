@@ -1,5 +1,5 @@
 import { UserPort } from "../app//user.ports";
-import { RegisterUserDTO, LoginDTO } from "../app/dto/user.dto";
+import { RegisterUserDTO, LoginDTO, UserOutputDTO, EditUserOutputDTO,EditUserInputDTO } from "../app/dto/user.dto";
 import prisma from "../../../config/db";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -70,7 +70,53 @@ async login(data: LoginDTO) {
       throw new Error("Login failed. Please check your credentials.");
     }
   }
+
   async getById(id: number) {
     return prisma.user.findUnique({ where: { id } });
   }
+
+  private toOutputDTO(user: any): UserOutputDTO { 
+    return {
+      id: user.id,
+      fname: user.fname,
+      lname: user.lastname,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt,
+    };
+  }
+
+  async findAll(): Promise<UserOutputDTO[]> {
+    const users = await prisma.user.findMany({});
+    return users.map(this.toOutputDTO)
+}
+async delete(id: number): Promise<void> {
+  await prisma.user.delete({
+    where: { id: id },
+  });
+}
+
+async update(
+  id: number,
+  data: Partial<EditUserInputDTO>
+): Promise<EditUserOutputDTO> {
+  const updated = await prisma.user.update({
+    where: { id: id },
+    data: {
+      fname: data.fname,
+      lastname: data.lastname,
+      email: data.email,
+      role: data.role,
+    },
+  });
+
+    return {
+    fname: updated.fname,
+    lastname: updated.lastname,
+    email: updated.email,
+    role: updated.role,
+    updatedAt: updated.updatedAt.toISOString(),
+  };
+}
+
 }

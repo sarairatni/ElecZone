@@ -3,7 +3,6 @@ import { OrderPorts } from '../app/order.ports';
 import { CreateOrderDto, UpdateOrderDto } from '../app/dto/order-input.dto';
 import { OrderOutputDto, OrderItemDto } from '../app/dto/order-output.dto';
 
-// Helper function pour mapper les OrderItems
 const mapOrderItems = (items: any[]): OrderItemDto[] => {
   return items.map(item => ({
     id: item.id,
@@ -25,7 +24,6 @@ export class OrderAdapters implements OrderPorts {
   private prisma = new PrismaClient();
 
   async createOrder(orderData: CreateOrderDto): Promise<OrderOutputDto> {
-    // 1. Créer la commande
     const order = await this.prisma.order.create({
       data: {
         customerFname: orderData.customerFname,
@@ -270,4 +268,7 @@ export class OrderAdapters implements OrderPorts {
       return false;
     }
   }
+
+
+  
 }

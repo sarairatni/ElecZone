@@ -6,7 +6,6 @@ export class OrderUseCases {
   constructor(private readonly orderPorts: OrderPorts) {}
 
   async createOrder(orderData: CreateOrderDto): Promise<OrderOutputDto> {
-    // Validate required fields
     if (!orderData.customerFname || !orderData.customerLname || !orderData.customerPhone || 
         !orderData.wilaya || !orderData.commune || !orderData.detailedAddress) {
       throw new Error('All customer information fields are required');
@@ -42,12 +41,6 @@ export class OrderUseCases {
     if (Math.abs(calculatedTotal - orderData.totalPrice) > 0.01) {
       throw new Error('Total price does not match calculated total');
     }
-
-    // Order status flow:
-    // PENDING: When order is first created
-    // ACCEPTED: When order is accepted and products are being prepared
-    // DELIVERED: When order is completed and delivered (archived)
-    
     return await this.orderPorts.createOrder(orderData);
   }
 

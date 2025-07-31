@@ -9,25 +9,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserUseCases = void 0;
-class UserUseCases {
-    constructor(repo) {
-        this.repo = repo;
+exports.ProductUseCases = void 0;
+class ProductUseCases {
+    constructor(productPort) {
+        this.productPort = productPort;
     }
-    register(input) {
+    createProduct(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.repo.register(input);
+            return yield this.productPort.create(data);
         });
     }
-    login(input) {
+    getProductById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.repo.login(input);
+            return yield this.productPort.findById(id);
         });
     }
-    getById(id) {
+    getAllProducts() {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.repo.getById(id);
+            return yield this.productPort.findAll();
+        });
+    }
+    deleteProduct(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.productPort.delete(id);
+        });
+    }
+    updateProduct(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.productPort.update(id, data);
+        });
+    }
+    getCategoryByProductId(productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.productPort.getCategoryByProductId(productId);
         });
     }
 }
-exports.UserUseCases = UserUseCases;
+exports.ProductUseCases = ProductUseCases;
