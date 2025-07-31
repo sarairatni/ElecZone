@@ -19,20 +19,20 @@ export default function GestionProduits() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Popup création
+  // create
   const [open, setOpen] = useState(false);
   const [newCategory, setNewCategory] = useState("");
   const [createError, setCreateError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
 
-  // Popup suppression
+  // suppression
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<{ id: number; name: string } | null>(null);
   const [deleteInput, setDeleteInput] = useState("");
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
 
-  // Popup édition
+  // edeting
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState<{ id: number; name: string } | null>(null);
   const [editInput, setEditInput] = useState("");
@@ -57,7 +57,6 @@ export default function GestionProduits() {
     }
   };
 
-  // Création
   const handleOpen = () => {
     setNewCategory("");
     setCreateError(null);
@@ -92,7 +91,6 @@ export default function GestionProduits() {
     }
   };
 
-  // Suppression
   const handleDeleteClick = (id: number, name: string) => {
     setCategoryToDelete({ id, name });
     setDeleteInput("");
@@ -129,7 +127,6 @@ export default function GestionProduits() {
     }
   };
 
-  // Edition
   const handleEditClick = (id: number, name: string) => {
     setCategoryToEdit({ id, name });
     setEditInput(name);
@@ -173,7 +170,7 @@ export default function GestionProduits() {
   };
 
   return (
-    <div className="pb-4">
+    <div className="pb-4 min-h-screen">
       <div className="p-5">
         <h1 className="text-2xl font-bold text-gray-900">Gestion des Produits</h1>
         <p className="text-gray-600 text-sm mt-2">
@@ -211,7 +208,7 @@ export default function GestionProduits() {
           </div>
         )}
 
-        {/* Popup création */}
+        {/* POPUP creat product */}
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Créer une nouvelle catégorie</DialogTitle>
           <DialogContent>
@@ -245,7 +242,7 @@ export default function GestionProduits() {
           </DialogActions>
         </Dialog>
 
-        {/* Popup suppression */}
+        {/* POPUP suppression */}
         <Dialog open={deleteDialogOpen} onClose={handleDeleteDialogClose}>
           <DialogTitle>Supprimer la catégorie</DialogTitle>
           <DialogContent>
@@ -283,7 +280,7 @@ export default function GestionProduits() {
           </DialogActions>
         </Dialog>
 
-        {/* Popup édition */}
+        {/* POPUP edit product */}
         <Dialog open={editDialogOpen} onClose={handleEditDialogClose}>
           <DialogTitle>Modifier la catégorie</DialogTitle>
           <DialogContent>

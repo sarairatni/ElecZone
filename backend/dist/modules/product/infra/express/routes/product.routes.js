@@ -9,10 +9,10 @@ const router = (0, express_1.Router)();
 const productPort = new adapters_1.PrismaProductAdapter();
 const productUseCases = new usecases_1.ProductUseCases(productPort);
 const controller = new product_controller_1.ProductController(productUseCases);
-// Routes
 router.post("/", controller.create);
 router.get("/", controller.findAll);
 router.get("/:id", controller.findById);
 router.put("/:id", controller.update);
 router.delete("/:id", controller.delete);
+router.get("/:id/category", controller.getCategoryByProductId);
 exports.default = router;

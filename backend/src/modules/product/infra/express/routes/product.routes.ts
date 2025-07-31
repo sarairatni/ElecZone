@@ -11,7 +11,7 @@ const productPort = new PrismaProductAdapter();
 const productUseCases = new ProductUseCases(productPort);
 const controller = new ProductController(productUseCases);
 
-// Routes
+
 router.post("/", controller.create);
 router.get("/", controller.findAll);
 router.get("/:id", controller.findById);

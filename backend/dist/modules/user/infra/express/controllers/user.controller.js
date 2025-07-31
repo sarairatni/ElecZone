@@ -31,6 +31,35 @@ class UserController {
                 res.status(401).json({ error: err.message });
             }
         });
+        this.findAll = (_, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const users = yield this.useCases.getAllUsers();
+                res.json(users);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Failed to get all users" });
+            }
+        });
+        this.delete = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = Number(req.params.id);
+                yield this.useCases.deleteUser(id);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Failed to delete user" });
+            }
+        });
+        this.update = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = Number(req.params.id);
+                const data = req.body;
+                const updated = yield this.useCases.updateUser(id, data);
+                res.json(updated);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Failed to update user" });
+            }
+        });
     }
 }
 exports.UserController = UserController;

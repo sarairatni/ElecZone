@@ -12,7 +12,7 @@ const app = express();
 
 dotenv.config({ debug: true});
 const coreOptions = {
-  origin: ["http://localhost:5000", "http://localhost:3000"],
+  origin: ["http://localhost:5001", "http://localhost:3000"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   // allowedHeaders: "Content-Type, Authorization",
   // exposedHeaders: "Content-Type, Authorization",
@@ -25,12 +25,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
-app.use("/", userRoutes);
+
 app.use("/products", productRoutes);
 app.use("/categories", categoryRoutes);
 app.use('/cartproducts', cartProductRouter);
 app.use('/orders', orderRoutes);
-
+app.use("/users", userRoutes);
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error('Global error handler:', err.stack || err);
   res.status(500).json({ error: 'Internal Server Error', details: err.message });

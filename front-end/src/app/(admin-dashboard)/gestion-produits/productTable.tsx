@@ -142,7 +142,6 @@ export default function ProductTable({ categoryId }: ProductTableProps) {
     setEditError(null);
   };
 
-  // Validation for edit form
   const isEditFormValid = !!(
     editForm.Name &&
     editForm.Description &&
