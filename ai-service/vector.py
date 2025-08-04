@@ -66,7 +66,7 @@ if add_documents:
         print(f"🧠 Adding {len(documents)} documents to Chroma...")
 
         db = Chroma.from_documents(documents, embedding=embeddings, ids=ids, persist_directory=db_location)
-        db.persist()
+        # db.persist()
 
         cursor.close()
         connection.close()
@@ -78,5 +78,5 @@ else:
     print("📦 Vector store already exists. Loading...")
     db = Chroma(collection_name="products", persist_directory=db_location, embedding_function=embeddings)
 
-retriever = db.as_retriever(search_kwargs={"k": 5})
+retriever = db.as_retriever(search_kwargs={"k": 100})
 __all__ = ["retriever"]

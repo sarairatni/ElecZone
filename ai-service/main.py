@@ -7,9 +7,13 @@ model = OllamaLLM(model="llama3.2:1b")
 template = """
 You are an expert in answering questions about products.
 
-Here are the products available: {products}
+ONLY use the following product information to answer the question. Do NOT invent products or details unless you dont have the information but mention that it is because of lack of info.
 
-Here is the question to answer: {question}
+Here are the available products:
+{products}
+
+User's question:
+{question}
 """
 
 prompt = ChatPromptTemplate.from_template(template)
