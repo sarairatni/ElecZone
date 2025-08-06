@@ -1,3 +1,6 @@
 .env
 .venv/
-chrome_langchain_db/
+vectorstore/
+.gitignore
+requirements.txt
+__pycache__/
