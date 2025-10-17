@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderAdapters = void 0;
 const client_1 = require("@prisma/client");
-// Helper function pour mapper les OrderItems
 const mapOrderItems = (items) => {
     return items.map(item => ({
         id: item.id,
@@ -34,7 +33,6 @@ class OrderAdapters {
     }
     createOrder(orderData) {
         return __awaiter(this, void 0, void 0, function* () {
-            // 1. Créer la commande
             const order = yield this.prisma.order.create({
                 data: {
                     customerFname: orderData.customerFname,

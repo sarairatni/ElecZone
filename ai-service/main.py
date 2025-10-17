@@ -2,8 +2,8 @@ import os
 import json
 import requests
 from dotenv import load_dotenv
-from vector import retriever
-from conversation_manager import ConversationManager
+from chatbot.vector import retriever
+from chatbot.conversation_manager import ConversationManager
 import time
 
 load_dotenv()

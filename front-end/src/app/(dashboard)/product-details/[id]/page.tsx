@@ -17,7 +17,11 @@ interface Product {
 
 const MAX_QUANTITY = 10;
 
-export default function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+export default function ProductDetailsPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = use(params) as { id: string };
   const router = useRouter();
 
@@ -31,7 +35,9 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`
+        );
         if (!res.ok) throw new Error("Failed to fetch product");
         const data = await res.json();
         console.log("Frontend API response:", data);
@@ -39,7 +45,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
         const mappedProduct = {
           id: data.ProductID,
           name: data.Name,
-          description: "Default description", // ou data.Description
+          description: data.Description,
           price: Number(data.Price),
           imgUrl: data.ImgUrl,
           category: { name: data.CategoryName || "" },
@@ -55,7 +61,6 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
         } else {
           setImageUrl(data.ImgUrl || "/photo.png");
         }
-
       } catch (err) {
         setProduct(null);
       } finally {
@@ -81,15 +86,18 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
     if (!customerId) return;
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cartproducts`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: product?.id,
-          customerId,
-          quantity,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/cartproducts`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            productId: product?.id,
+            customerId,
+            quantity,
+          }),
+        }
+      );
       if (!res.ok) throw new Error("Failed to add to cart");
       router.push("/cart");
     } catch (err) {
@@ -124,7 +132,10 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
             {product.description}
           </div>
           <div className="text-base text-gray-700 font-semibold mt-2 mb-2">
-            Total Price: <span className="text-[#00D886]">{(product.price * quantity).toFixed(2)} DA</span>
+            Total Price:{" "}
+            <span className="text-[#00D886]">
+              {(product.price * quantity).toFixed(2)} DA
+            </span>
           </div>
           <div className="flex flex-col items-start gap-2">
             <div className="flex items-center gap-4">
@@ -135,7 +146,9 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
               >
                 -
               </button>
-              <span className="text-2xl font-bold w-12 text-center">{quantity}</span>
+              <span className="text-2xl font-bold w-12 text-center">
+                {quantity}
+              </span>
               <button
                 className="px-4 py-2 bg-gray-200 rounded text-2xl font-bold hover:bg-gray-300 transition"
                 onClick={() => handleQuantityChange(1)}
@@ -144,7 +157,9 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                 +
               </button>
             </div>
-            <div className="text-xs text-gray-400 mt-1">Max: {MAX_QUANTITY}</div>
+            <div className="text-xs text-gray-400 mt-1">
+              Max: {MAX_QUANTITY}
+            </div>
           </div>
           <button
             className="mt-6 w-full rounded-lg bg-[#FF6767] text-white py-2 hover:bg-[#FF6767]/80 text-base font-semibold shadow"

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { supabase } from "../../../utils/supabaseClient"; 
+import { supabase } from "../../../utils/supabaseClient";
 
 interface ProductCardProps {
   id: string;
@@ -12,7 +12,12 @@ interface ProductCardProps {
   imgUrl?: string;
 }
 
-export default function ProductCard({ id, name, price, imgUrl }: ProductCardProps) {
+export default function ProductCard({
+  id,
+  name,
+  price,
+  imgUrl,
+}: ProductCardProps) {
   const router = useRouter();
   const [imageUrl, setImageUrl] = useState<string>("/photo.png");
   const [imageLoading, setImageLoading] = useState(true);
@@ -25,9 +30,7 @@ export default function ProductCard({ id, name, price, imgUrl }: ProductCardProp
         return;
       }
       try {
-        const { data } = supabase.storage
-          .from('products') 
-          .getPublicUrl(imgUrl);
+        const { data } = supabase.storage.from("products").getPublicUrl(imgUrl);
 
         if (data?.publicUrl) {
           setImageUrl(data.publicUrl);
@@ -35,7 +38,7 @@ export default function ProductCard({ id, name, price, imgUrl }: ProductCardProp
           setImageUrl("/photo.png");
         }
       } catch (error) {
-        console.error('Error fetching image from Supabase:', error);
+        console.error("Error fetching image from Supabase:", error);
         setImageUrl("/photo.png");
       } finally {
         setImageLoading(false);
@@ -59,36 +62,43 @@ export default function ProductCard({ id, name, price, imgUrl }: ProductCardProp
   };
 
   return (
-    <div className="w-40 bg-white rounded-xl p-3 shadow-md flex flex-col justify-between mb-2 border border-gray-200">
-      <div>
-        <div className="flex justify-center">
-          {imageLoading ? (
-            <div className="w-[100px] h-[100px] bg-gray-200 rounded-md animate-pulse flex items-center justify-center">
-              <span className="text-gray-400 text-xs">Loading...</span>
-            </div>
-          ) : (
-            <Image
-              src={imageUrl}
-              alt={name}
-              width={100}
-              height={100}
-              className="rounded-md object-cover"
-              onError={handleImageError}
-            />
-          )}
-        </div>
-        <h3 className="mt-2 text-xs font-semibold text-gray-700 text-center">{name}</h3>
-        <p className="text-[#00D886] text-xs font-bold text-center">
-          {price.toFixed(2)} DA
-        </p>
+<div className="w-40 bg-white rounded-xl p-3 shadow-md flex flex-col border border-gray-200 mb-2">
+  {/* Image container avec hauteur fixe */}
+  <div className="flex justify-center items-center mb-2 h-[100px]">
+    {imageLoading ? (
+      <div className="w-[100px] h-[100px] bg-gray-200 rounded-md animate-pulse flex items-center justify-center">
+        <span className="text-gray-400 text-xs">Loading...</span>
       </div>
-
-      <button
-        className="mt-2 w-full text-xs rounded-lg bg-[#FF6767] text-white py-1 hover:bg-[#E8988A] transition-colors"
-        onClick={handleRedirect}
-      >
-        Add to cart
-      </button>
-    </div>
+    ) : (
+      <Image
+        src={imageUrl}
+        alt={name}
+        width={100}
+        height={100}
+        className="rounded-md object-cover w-[100px] h-[100px]"
+        onError={handleImageError}
+      />
+    )}
+  </div>
+  
+  {/* Spacer qui pousse le contenu en bas */}
+  <div className="flex-grow"></div>
+  
+  {/* Nom et prix - toujours en bas */}
+  <div className="mt-auto">
+    <h3 className="text-xs font-semibold text-gray-700 text-center">{name}</h3>
+    <p className="text-[#00D886] text-xs font-bold text-center">
+      {price.toFixed(2)} DA
+    </p>
+  </div>
+  
+  {/* Bouton */}
+  <button
+    className="mt-2 w-full text-xs rounded-lg bg-[#FF6767] text-white py-1 hover:bg-[#E8988A] transition-colors"
+    onClick={handleRedirect}
+  >
+    Add to cart
+  </button>
+</div>
   );
 }

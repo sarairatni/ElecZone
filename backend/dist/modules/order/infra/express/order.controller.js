@@ -86,5 +86,25 @@ class OrderController {
             }
         });
     }
+    updateStatus(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = parseInt(req.params.id);
+                const { status } = req.body;
+                const validStatuses = ['PENDING', 'ACCEPTED', 'DELIVERED'];
+                if (!status || !validStatuses.includes(status)) {
+                    return res.status(400).json({
+                        error: 'Valid status is required. Must be one of: PENDING, ACCEPTED, DELIVERED, REJECTED'
+                    });
+                }
+                const orderData = { status };
+                const order = yield this.orderUseCases.updateOrder(id, orderData);
+                res.status(200).json(order);
+            }
+            catch (error) {
+                res.status(400).json({ error: error.message });
+            }
+        });
+    }
 }
 exports.OrderController = OrderController;

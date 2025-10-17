@@ -104,4 +104,3 @@ if __name__ == "__main__":
         print(f"  Description : {meta['description'][:100]}...")
         print(f"  Image URL   : {meta['img_url']}\n")
         
-
