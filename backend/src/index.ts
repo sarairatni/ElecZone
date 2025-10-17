@@ -4,6 +4,7 @@ import categoryRoutes from "./modules/category/infra/express/category.routes";
 import userRoutes from "./modules/user/infra/express/user.routes";
 import cartProductRouter from "./modules/cartproduct/infra/express/cartproduct.routes";
 import orderRoutes from "./modules/order/infra/express/order.routes";
+import aiRoutes from "./modules/ai/infra/express/ai.routes";
 import cors from "cors";
 import dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
@@ -31,6 +32,7 @@ app.use("/categories", categoryRoutes);
 app.use('/cartproducts', cartProductRouter);
 app.use('/orders', orderRoutes);
 app.use("/users", userRoutes);
+app.use("/ai", aiRoutes);
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error('Global error handler:', err.stack || err);
   res.status(500).json({ error: 'Internal Server Error', details: err.message });
