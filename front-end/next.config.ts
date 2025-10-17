@@ -2,9 +2,19 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: [
-      'stfmmjtujnliwaikotfq.supabase.co', 
-    ]},
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "stfmmjtujnliwaikotfq.supabase.co",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+        pathname: "/**",
+      },
+    ],
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },

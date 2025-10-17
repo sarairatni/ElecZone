@@ -1,0 +1,6 @@
+.env
+.venv/
+vectorstore/
+.gitignore
+requirements.txt
+__pycache__/
